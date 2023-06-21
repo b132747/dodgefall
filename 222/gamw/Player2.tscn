@@ -1,0 +1,72 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Player2.gd" type="Script" id=1]
+[ext_resource path="res://art/player2_up2.png" type="Texture" id=2]
+[ext_resource path="res://art/player2_up1.png" type="Texture" id=3]
+[ext_resource path="res://art/player2walk1.png" type="Texture" id=4]
+[ext_resource path="res://art/player2_walk2.png" type="Texture" id=5]
+[ext_resource path="res://art/playerGrey_walk1.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "up2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "walk2",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 27.0
+height = 10.0
+
+[sub_resource type="Gradient" id=10]
+colors = PoolColorArray( 1, 1, 1, 0.501961, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 10 )
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0.00501098, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 0.994989, 0.324 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.75
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 8 )
+
+[node name="Player2" type="Area2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 2 )
+animation = "walk2"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="Trail" type="Particles2D" parent="."]
+z_index = -1
+amount = 10
+speed_scale = 2.0
+local_coords = false
+process_material = SubResource( 12 )
+texture = ExtResource( 6 )
+
+[connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_Player2_body_entered"]
